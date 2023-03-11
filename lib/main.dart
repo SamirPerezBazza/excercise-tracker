@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       children: <Widget>[
         Align(
             alignment: Alignment.topLeft,
+            widthFactor: 1.7,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
@@ -93,10 +94,31 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: const <Widget>[
-                Card(),
-                Card(),
-                Card(),
+              children: [
+                Card(
+                  title: 'Bicicleta',
+                  image: Image.asset(
+                    'assets/images/bikeEmoji.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
+                Card(
+                  title: 'Caminata',
+                  image: Image.asset(
+                    'assets/images/walkingEmoji.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
+                Card(
+                  title: 'Trotar',
+                  image: Image.asset(
+                    'assets/images/runningEmoji.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
               ],
             )),
         Align(
@@ -104,11 +126,11 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: const <Widget>[
-                RoundButton(),
-                RoundButton(),
-                RoundButton(),
-                RoundButton(),
+              children: [
+                RoundButton(color: Colors.blue.shade300),
+                RoundButton(color: Colors.green.shade300),
+                RoundButton(color: Colors.orange.shade300),
+                RoundButton(color: Colors.purple.shade300),
               ],
             ))
       ],
@@ -118,8 +140,11 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class RoundButton extends StatelessWidget {
+  final Color color;
+
   const RoundButton({
     super.key,
+    required this.color,
   });
 
   @override
@@ -129,7 +154,7 @@ class RoundButton extends StatelessWidget {
       width: 60,
       child: Material(
         borderRadius: BorderRadius.circular(100),
-        color: Colors.grey,
+        color: color,
         child: InkWell(
           onTap: () {},
         ),
@@ -139,21 +164,36 @@ class RoundButton extends StatelessWidget {
 }
 
 class Card extends StatelessWidget {
+  final String title;
+  final Image image;
+
   const Card({
     super.key,
+    required this.title,
+    required this.image,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      width: 150,
-      child: Material(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.grey,
-        child: InkWell(
-          onTap: () {},
-        ),
+    return Material(
+      color: Colors.grey,
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: () {},
+        child: Container(
+            height: 200,
+            width: 150,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                image
+              ],
+            )),
       ),
     );
   }
