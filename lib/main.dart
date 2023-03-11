@@ -70,46 +70,91 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        body: Column(
+      children: <Widget>[
+        Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Hola, Juan',
+                  style: TextStyle(fontSize: 40),
+                ),
+                Text(
+                  '¿Que harás hoy?',
+                  style: TextStyle(fontSize: 20),
+                )
+              ],
+            )),
+        Align(
+            alignment: Alignment.center,
+            heightFactor: 2,
+            child: Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: const <Widget>[
+                Card(),
+                Card(),
+                Card(),
+              ],
+            )),
+        Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: const <Widget>[
+                RoundButton(),
+                RoundButton(),
+                RoundButton(),
+                RoundButton(),
+              ],
+            ))
+      ],
+    ) // This trailing comma makes auto-formatting nicer for build methods.
+        );
+  }
+}
+
+class RoundButton extends StatelessWidget {
+  const RoundButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      width: 60,
+      child: Material(
+        borderRadius: BorderRadius.circular(100),
+        color: Colors.grey,
+        child: InkWell(
+          onTap: () {},
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class Card extends StatelessWidget {
+  const Card({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      width: 150,
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey,
+        child: InkWell(
+          onTap: () {},
+        ),
+      ),
     );
   }
 }
