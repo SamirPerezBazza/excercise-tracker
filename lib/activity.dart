@@ -35,11 +35,15 @@ class _ActivityState extends State<Activity> {
     //Start listening to the user's position
     setState(() {
       _isRunning = true;
+      _seconds = 0;
+      _minutes = 0;
+      _hours = 0;
+      _distance = 0;
     });
 
     const LocationSettings locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 100,
+      distanceFilter: 2,
     );
 
     positionStream =
@@ -51,21 +55,15 @@ class _ActivityState extends State<Activity> {
             userLocation.longitude,
             newPosition.latitude,
             newPosition.longitude);
-        // ignore: avoid_print
-        print('Distance between: $newDistance');
         setState(() {
-          _distance = Geolocator.distanceBetween(
-              userLocation.latitude,
-              userLocation.longitude,
-              newPosition.latitude,
-              newPosition.longitude);
+          _distance = newDistance;
         });
       }
     });
 
     timer = Timer.periodic(new Duration(seconds: 1), (timer) {
       setState(() {
-        _seconds = timer.tick;
+        _seconds += 1;
       });
 
       if (_seconds > 59) {
@@ -160,13 +158,19 @@ class _ActivityState extends State<Activity> {
                     children: [
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(24),
-                              elevation: 0),
+                            shape: const CircleBorder(),
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            fixedSize: const Size(50, 50),
+                          ),
                           onPressed: () {
                             Navigator.pushNamed(context, "/dashboard");
                           },
-                          child: const Icon(CupertinoIcons.arrow_left_circle)),
+                          child: const Icon(
+                            CupertinoIcons.arrow_left_circle,
+                            color: Colors.black,
+                            size: 50,
+                          )),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +229,8 @@ class _ActivityState extends State<Activity> {
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.grey,
                                     ),
-                                    child: const Text("0 m"),
+                                    child: Text(
+                                        "${_distance.toStringAsFixed(1)}m"),
                                   )
                                 ],
                               )
