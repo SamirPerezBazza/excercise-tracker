@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
+import 'package:my_app/dashboard.dart';
+
 class Activity extends StatefulWidget {
   const Activity({super.key});
 
@@ -49,6 +51,9 @@ class _ActivityState extends State<Activity> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ActivityArguments;
+
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -74,7 +79,7 @@ class _ActivityState extends State<Activity> {
                     children: [
                       Column(
                         children: <Widget>[
-                          const Text("Bicicleta"),
+                          Text(args.title),
                           const Text("Tiempo"),
                           Container(
                             alignment: Alignment.center,
@@ -91,11 +96,7 @@ class _ActivityState extends State<Activity> {
                           ),
                         ],
                       ),
-                      Image.asset(
-                        "assets/images/bikeEmoji.png",
-                        width: 100,
-                        height: 100,
-                      )
+                      args.image
                     ],
                   ),
                   Container(
