@@ -20,19 +20,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  // int _counter = 0;
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -74,24 +61,56 @@ class _DashboardState extends State<Dashboard> {
                     width: 100,
                     height: 100,
                   ),
-                  handleTab: () => Navigator.pushNamed(context, '/activity'),
+                  handleTab: () => Navigator.pushNamed(
+                    context,
+                    '/activity',
+                    arguments: ActivityArguments(
+                        "Bicicleta",
+                        Image.asset(
+                          'assets/images/bikeEmoji.png',
+                          width: 100,
+                          height: 100,
+                        )),
+                  ),
                 ),
-                // Card(
-                //   title: 'Caminata',
-                //   image: Image.asset(
-                //     'assets/images/walkingEmoji.png',
-                //     width: 100,
-                //     height: 100,
-                //   ),
-                // ),
-                // Card(
-                //   title: 'Trotar',
-                //   image: Image.asset(
-                //     'assets/images/runningEmoji.png',
-                //     width: 100,
-                //     height: 100,
-                //   ),
-                // ),
+                Card(
+                  title: 'Caminata',
+                  image: Image.asset(
+                    'assets/images/walkingEmoji.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                  handleTab: () => Navigator.pushNamed(
+                    context,
+                    '/activity',
+                    arguments: ActivityArguments(
+                        "Caminata",
+                        Image.asset(
+                          'assets/images/walkingEmoji.png',
+                          width: 100,
+                          height: 100,
+                        )),
+                  ),
+                ),
+                Card(
+                  title: 'Trote',
+                  image: Image.asset(
+                    'assets/images/runningEmoji.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                  handleTab: () => Navigator.pushNamed(
+                    context,
+                    '/activity',
+                    arguments: ActivityArguments(
+                        "Trote",
+                        Image.asset(
+                          'assets/images/runningEmoji.png',
+                          width: 100,
+                          height: 100,
+                        )),
+                  ),
+                ),
               ],
             )),
         Align(
@@ -182,4 +201,11 @@ class Card extends StatelessWidget {
       ),
     );
   }
+}
+
+class ActivityArguments {
+  final String title;
+  final Image image;
+
+  ActivityArguments(this.title, this.image);
 }
