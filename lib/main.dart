@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'activity.dart';
 import 'dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,8 +28,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +59,18 @@ class LoginPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Column(
-                children: const <Widget>[
+                children: <Widget>[
                   TextField(
-                    decoration: InputDecoration(
+                    controller: emailController,
+                    decoration: const InputDecoration(
                       hintText: 'Correo electrónico',
                     ),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   TextField(
+                    controller: passwordController,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Contraseña',
                     ),
                   ),
@@ -72,7 +80,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 50.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/dashboard");
+                _login(context);
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue,
@@ -100,5 +108,36 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _login(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+    String? password = prefs.getString('password');
+
+    if ("harry@gmail.com" == emailController.text &&
+        "123" == passwordController.text) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, "/dashboard");
+    } else {
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Correo o contraseña incorrectos.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
