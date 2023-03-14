@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'activity.dart';
 import 'dashboard.dart';
+import 'record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() {
   runApp(const MyApp());
