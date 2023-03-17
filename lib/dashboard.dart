@@ -29,126 +29,138 @@ class _DashboardState extends State<Dashboard> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-        body: Column(
-      children: <Widget>[
-        Align(
-            alignment: Alignment.topLeft,
-            widthFactor: 1.7,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Hola, Juan',
-                  style: TextStyle(fontSize: 40),
-                ),
-                Text(
-                  '¿Que harás hoy?',
-                  style: TextStyle(fontSize: 20),
-                )
-              ],
-            )),
-        Align(
-            alignment: Alignment.center,
-            heightFactor: 2,
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                Card(
-                  title: 'Bicicleta',
-                  image: Image.asset(
-                    'assets/images/bikeEmoji.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                  handleTab: () => Navigator.pushNamed(
-                    context,
-                    '/activity',
-                    arguments: ActivityArguments(
-                        "Bicicleta",
-                        Image.asset(
-                          'assets/images/bikeEmoji.png',
-                          width: 100,
-                          height: 100,
-                        )),
-                  ),
-                ),
-                Card(
-                  title: 'Caminata',
-                  image: Image.asset(
-                    'assets/images/walkingEmoji.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                  handleTab: () => Navigator.pushNamed(
-                    context,
-                    '/activity',
-                    arguments: ActivityArguments(
-                        "Caminata",
-                        Image.asset(
-                          'assets/images/walkingEmoji.png',
-                          width: 100,
-                          height: 100,
-                        )),
-                  ),
-                ),
-                Card(
-                  title: 'Trote',
-                  image: Image.asset(
-                    'assets/images/runningEmoji.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                  handleTab: () => Navigator.pushNamed(
-                    context,
-                    '/activity',
-                    arguments: ActivityArguments(
-                        "Trote",
-                        Image.asset(
-                          'assets/images/runningEmoji.png',
-                          width: 100,
-                          height: 100,
-                        )),
-                  ),
-                ),
-              ],
-            )),
-        Align(
-            alignment: Alignment.center,
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                RoundButton(
-                    color: Colors.blue.shade300,
-                    icon: const Icon(
-                      CupertinoIcons.graph_circle,
-                      size: 40,
-                    )),
-                RoundButton(
-                    color: Colors.green.shade300,
-                    icon: const Icon(CupertinoIcons.clock)),
-                RoundButton(
-                    color: Colors.orange.shade300,
-                    icon: const Icon(CupertinoIcons.list_bullet)),
-                RoundButton(
-                    color: Colors.purple.shade300,
-                    icon: const Icon(CupertinoIcons.map)),
-              ],
-            ))
-      ],
-    ) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Align(
+                alignment: Alignment.topLeft,
+                widthFactor: 1.7,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Hola, Juan',
+                      style: TextStyle(fontSize: 40),
+                    ),
+                    Text(
+                      '¿Que harás hoy?',
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                )),
+            Align(
+                alignment: Alignment.center,
+                heightFactor: 1.5,
+                child: Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    Card(
+                      title: 'Bicicleta',
+                      image: Image.asset(
+                        'assets/images/bikeEmoji.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                      handleTab: () => Navigator.pushNamed(
+                        context,
+                        '/activity',
+                        arguments: ActivityArguments(
+                            "Bicicleta",
+                            Image.asset(
+                              'assets/images/bikeEmoji.png',
+                              width: 100,
+                              height: 100,
+                            )),
+                      ),
+                    ),
+                    Card(
+                      title: 'Caminata',
+                      image: Image.asset(
+                        'assets/images/walkingEmoji.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                      handleTab: () => Navigator.pushNamed(
+                        context,
+                        '/activity',
+                        arguments: ActivityArguments(
+                            "Caminata",
+                            Image.asset(
+                              'assets/images/walkingEmoji.png',
+                              width: 100,
+                              height: 100,
+                            )),
+                      ),
+                    ),
+                    Card(
+                      title: 'Trote',
+                      image: Image.asset(
+                        'assets/images/runningEmoji.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                      handleTab: () => Navigator.pushNamed(
+                        context,
+                        '/activity',
+                        arguments: ActivityArguments(
+                            "Trote",
+                            Image.asset(
+                              'assets/images/runningEmoji.png',
+                              width: 100,
+                              height: 100,
+                            )),
+                      ),
+                    ),
+                  ],
+                )),
+            Align(
+                alignment: Alignment.center,
+                child: Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    RoundButton(
+                      color: Colors.blue.shade300,
+                      icon: const Icon(
+                        CupertinoIcons.graph_circle,
+                        size: 40,
+                      ),
+                      route: "/leaderboard",
+                    ),
+                    RoundButton(
+                      color: Colors.green.shade300,
+                      icon: const Icon(CupertinoIcons.clock),
+                      route: "/leaderboard",
+                    ),
+                    RoundButton(
+                      color: Colors.orange.shade300,
+                      icon: const Icon(CupertinoIcons.list_bullet),
+                      route: "/leaderboard",
+                    ),
+                    RoundButton(
+                      color: Colors.purple.shade300,
+                      icon: const Icon(CupertinoIcons.map),
+                      route: "/leaderboard",
+                    ),
+                  ],
+                ))
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }
 
 class RoundButton extends StatelessWidget {
   final Color color;
   final Icon icon;
-  const RoundButton({
+  String route;
+  RoundButton({
     super.key,
     required this.color,
     required this.icon,
+    required this.route,
   });
 
   @override
@@ -159,7 +171,11 @@ class RoundButton extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(100),
         color: color,
-        child: InkWell(onTap: () {}, child: icon),
+        child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, route);
+            },
+            child: icon),
       ),
     );
   }

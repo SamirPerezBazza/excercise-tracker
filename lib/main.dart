@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/leaderboard.dart';
 import 'activity.dart';
 import 'dashboard.dart';
+import 'leaderboard.dart';
 import 'record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/dashboard': (context) => const Dashboard(),
         '/activity': (context) => const Activity(),
+        '/leaderboard': (context) => const Leaderboard(),
       },
     );
   }
