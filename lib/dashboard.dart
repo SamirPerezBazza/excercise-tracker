@@ -141,7 +141,7 @@ class _DashboardState extends State<Dashboard> {
                     RoundButton(
                       color: Colors.purple.shade300,
                       icon: const Icon(CupertinoIcons.map),
-                      route: "/leaderboard",
+                      route: "/segments",
                     ),
                   ],
                 ))

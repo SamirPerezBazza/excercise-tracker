@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/leaderboard.dart';
+import 'package:my_app/segments.dart';
 import 'activity.dart';
 import 'dashboard.dart';
 import 'leaderboard.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const Dashboard(),
         '/activity': (context) => const Activity(),
         '/leaderboard': (context) => const Leaderboard(),
+        '/segments': (context) => const Segments(),
       },
     );
   }
