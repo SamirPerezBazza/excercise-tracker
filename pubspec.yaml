@@ -38,6 +38,7 @@ dependencies:
    google_maps_flutter: ^2.2.5
    geolocator: ^9.0.2
    modal_bottom_sheet: ^2.1.2
+   mockito: ^5.4.0
 
 dev_dependencies:
    flutter_test:

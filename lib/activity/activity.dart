@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
+import 'package:my_app/activity/helpers.dart';
 
 import 'package:my_app/dashboard.dart';
 
@@ -11,16 +12,18 @@ class Activity extends StatefulWidget {
   const Activity({super.key});
 
   @override
-  State<Activity> createState() => _ActivityState();
+  State<Activity> createState() => ActivityState();
 }
 
-class _ActivityState extends State<Activity> {
+class ActivityState extends State<Activity> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   int _seconds = 0, _minutes = 0, _hours = 0;
-  bool _isRunning = false;
+
+  bool isRunning = false;
+
   double _distance = 0;
-  var userLocation = LatLng(37.42796133580664, -122.085749655962);
+  var userLocation = const LatLng(37.42796133580664, -122.085749655962);
 
   Timer? timer;
   StreamSubscription<Position>? positionStream;
@@ -34,7 +37,7 @@ class _ActivityState extends State<Activity> {
   void _initializeTime() {
     //Start listening to the user's position
     setState(() {
-      _isRunning = true;
+      isRunning = true;
       _seconds = 0;
       _minutes = 0;
       _hours = 0;
@@ -84,46 +87,11 @@ class _ActivityState extends State<Activity> {
     timer?.cancel();
     positionStream?.cancel();
     setState(() {
-      _isRunning = false;
+      isRunning = false;
     });
   }
 
-  Future<void> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    Position position = await Geolocator.getCurrentPosition();
-
+  Future<void> onCompleteLocation(position) async {
     CameraPosition userPosition = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(position.latitude, position.longitude),
@@ -135,8 +103,14 @@ class _ActivityState extends State<Activity> {
     controller.animateCamera(CameraUpdate.newCameraPosition(userPosition));
 
     setState(() {
-      userLocation = LatLng(position.latitude, position.longitude);
+      userLocation = position;
     });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -252,7 +226,7 @@ class _ActivityState extends State<Activity> {
                             ),
                             Container(
                               width: double.infinity,
-                              height: 350,
+                              height: 100,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -261,7 +235,7 @@ class _ActivityState extends State<Activity> {
                                 initialCameraPosition: _kGooglePlex,
                                 onMapCreated: (GoogleMapController controller) {
                                   _controller.complete(controller);
-                                  _determinePosition();
+                                  determinePosition(onCompleteLocation);
                                 },
                                 myLocationEnabled: true,
                               ),
@@ -270,18 +244,19 @@ class _ActivityState extends State<Activity> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        // margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ElevatedButton(
+                          key: const Key("btn_timer"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                _isRunning ? Colors.orange : Colors.green,
+                                isRunning ? Colors.orange : Colors.green,
                             minimumSize: const Size.fromHeight(50),
                             elevation: 0,
                           ),
                           onPressed: () {
-                            !_isRunning ? _initializeTime() : _stopTimer();
+                            !isRunning ? _initializeTime() : _stopTimer();
                           },
-                          child: Text(_isRunning ? "Detener" : "Iniciar"),
+                          child: Text(isRunning ? "Detener" : "Iniciar"),
                         ),
                       ),
                       ElevatedButton(
