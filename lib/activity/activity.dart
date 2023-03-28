@@ -12,14 +12,16 @@ class Activity extends StatefulWidget {
   const Activity({super.key});
 
   @override
-  State<Activity> createState() => _ActivityState();
+  State<Activity> createState() => ActivityState();
 }
 
-class _ActivityState extends State<Activity> {
+class ActivityState extends State<Activity> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   int _seconds = 0, _minutes = 0, _hours = 0;
-  bool _isRunning = false;
+
+  bool isRunning = false;
+
   double _distance = 0;
   var userLocation = const LatLng(37.42796133580664, -122.085749655962);
 
@@ -35,7 +37,7 @@ class _ActivityState extends State<Activity> {
   void _initializeTime() {
     //Start listening to the user's position
     setState(() {
-      _isRunning = true;
+      isRunning = true;
       _seconds = 0;
       _minutes = 0;
       _hours = 0;
@@ -85,7 +87,7 @@ class _ActivityState extends State<Activity> {
     timer?.cancel();
     positionStream?.cancel();
     setState(() {
-      _isRunning = false;
+      isRunning = false;
     });
   }
 
@@ -103,6 +105,12 @@ class _ActivityState extends State<Activity> {
     setState(() {
       userLocation = position;
     });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -218,7 +226,7 @@ class _ActivityState extends State<Activity> {
                             ),
                             Container(
                               width: double.infinity,
-                              height: 350,
+                              height: 100,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -236,18 +244,19 @@ class _ActivityState extends State<Activity> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        // margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ElevatedButton(
+                          key: const Key("btn_timer"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                _isRunning ? Colors.orange : Colors.green,
+                                isRunning ? Colors.orange : Colors.green,
                             minimumSize: const Size.fromHeight(50),
                             elevation: 0,
                           ),
                           onPressed: () {
-                            !_isRunning ? _initializeTime() : _stopTimer();
+                            !isRunning ? _initializeTime() : _stopTimer();
                           },
-                          child: Text(_isRunning ? "Detener" : "Iniciar"),
+                          child: Text(isRunning ? "Detener" : "Iniciar"),
                         ),
                       ),
                       ElevatedButton(
